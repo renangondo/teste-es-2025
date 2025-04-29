@@ -21,6 +21,13 @@
             <version>5.13.0-M2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+			<groupId>paranavai.ifpr.edu.br</groupId>
+			<artifactId>imposto.renda</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/irpf/imposto.renda-0.0.1-SNAPSHOT.jar</systemPath>
+		</dependency>
     </dependencies>
 
 </project>
