@@ -1,4 +1,4 @@
-package br.edu.ifpr.teste.servico.ordenacao;
+package br.edu.ifpr.teste.servico.irpf;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +12,8 @@ public class TesteSimuladorImpostoRenda {
 
         // Act (AGIR)
         // When (QUANDO)
-        SimuladorImpostoRenda.calcularImposto(0);
 
+        SimuladorImpostoRenda.calcularImposto(0);
         // Assert (VERIFICAR)
         // Then (ENTÃO)
     }
