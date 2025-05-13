@@ -8,8 +8,7 @@ import java.util.Collections;
 
 public class ServicoOrdenacao {
 
-    public ArrayList<Integer> obterDadosArquivo(String nomeArquivo) throws Exception {
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(nomeArquivo);
+    public ArrayList<Integer> obterDadosArquivo(InputStream inputStream) throws Exception {
 
         ArrayList<Integer> lista = new ArrayList<>();
 

@@ -19,13 +19,13 @@ public class TesteOrdenacao {
         String entradaEsperada = "5, 4, 6";
         String saidaEsperada = "4, 5, 6";
 
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(nomeArquivo);
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("ordenacao/" + nomeArquivo);
 
         assertNotNull(inputStream, "Arquivo casoUm.txt não encontrado em test/resources");
         // Act (AGIR)
         // When (QUANDO)
         ServicoOrdenacao servicoOrdenacao = new ServicoOrdenacao();
-        ArrayList<Integer> original = servicoOrdenacao.obterDadosArquivo(nomeArquivo);
+        ArrayList<Integer> original = servicoOrdenacao.obterDadosArquivo(inputStream);
         ArrayList<Integer> ordenado = servicoOrdenacao.ordenar(original);
         String entrada = servicoOrdenacao.prepararParaImpressao(original);
         String saida = servicoOrdenacao.prepararParaImpressao(ordenado);
