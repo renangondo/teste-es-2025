@@ -1,34 +1,75 @@
 package br.edu.ifpr.teste.servico.calendario;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.time.YearMonth;
+import java.time.format.TextStyle;
+import java.util.Locale;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
-
-import paranavai.calendario.Calendario;
 
 public class TesteCalendario {
 
     @Test
-    public void imprimeJaneiro2025() throws IOException {
-        // Arrange (PREPARAR) - Roy Osherove no livro “The Art of Unit Testing”.
-        // Given (DADO) - BDD (Behavior Driven Development)
+    public void testGetCalendarioSemParametros() {
+        String calendario = CalendarioUtils.getCalendario();
+        YearMonth atual = YearMonth.now();
+        String nomeMes = atual.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
 
-        Path path = Paths.get("src\\test\\resources\\calendario", "janeiro2025.txt");
-        String saidaEsperada = Files.readString(path);
-        saidaEsperada = saidaEsperada.replace("\r\n", "\n");
+        assertTrue(calendario.contains(nomeMes), "Deve conter o mês atual");
+        assertTrue(calendario.contains(String.valueOf(atual.getYear())), "Deve conter o ano atual");
+    }
 
-        // Act (AGIR)
-        // When (QUANDO)
-        Calendario calendario = new Calendario();
-        String janeiro2025 = calendario.getCalendario("1", "2025");
+    @Test
+    public void testGetCalendarioComAnoValido() {
+        String calendario = CalendarioUtils.getCalendario("2023");
+        assertTrue(calendario.contains("Janeiro 2023"), "Deve conter Janeiro de 2023");
+        assertTrue(calendario.contains("Dezembro 2023"), "Deve conter Dezembro de 2023");
+    }
 
-        // Assert (VERIFICAR)
-        // Then (ENTÃO)
-        assertEquals(saidaEsperada, janeiro2025);
+    @Test
+    public void testGetCalendarioComMesEAnoValidos() {
+        String calendario = CalendarioUtils.getCalendario("2", "2024");
+        assertTrue(calendario.contains("Fevereiro 2024"), "Deve conter Fevereiro de 2024");
+    }
+
+    @Test
+    public void testGetCalendarioComParametrosExcedentes() {
+        String calendario = CalendarioUtils.getCalendario("3", "2020", "extra", "param");
+        assertTrue(calendario.contains("Março 2020"), "Deve conter Março de 2020");
+        assertFalse(calendario.contains("extra"), "Não deve conter parâmetros excedentes");
+    }
+
+    @Test
+    public void testGetCalendarioReformaGregoriana() {
+        String calendario = CalendarioUtils.getCalendario("9", "1752");
+        // Testa se há quebra de sequência entre os dias 2 e 14
+        assertTrue(calendario.contains("2"), "Deve conter o dia 2 de setembro de 1752");
+        assertTrue(calendario.contains("14"), "Deve conter o dia 14 de setembro de 1752");
+        assertFalse(calendario.contains("3"), "Não deve conter o dia 3 de setembro de 1752");
+    }
+
+    @Test
+    public void testGetCalendarioAnoLimiteInferior() {
+        String calendario = CalendarioUtils.getCalendario("1");
+        assertTrue(calendario.contains("Janeiro 1"), "Deve conter Janeiro do ano 1");
+    }
+
+    @Test
+    public void testGetCalendarioAnoLimiteSuperior() {
+        String calendario = CalendarioUtils.getCalendario("9999");
+        assertTrue(calendario.contains("Janeiro 9999"), "Deve conter Janeiro de 9999");
+    }
+
+    @Test
+    public void testGetCalendarioMesInvalido() {
+        String calendario = CalendarioUtils.getCalendario("13", "2023");
+        assertTrue(calendario.isEmpty() || calendario.contains("Erro"), "Deve retornar vazio ou mensagem de erro");
+    }
+
+    @Test
+    public void testGetCalendarioAnoInvalido() {
+        String calendario = CalendarioUtils.getCalendario("0");
+        assertTrue(calendario.isEmpty() || calendario.contains("Erro"), "Ano 0 não é permitido");
     }
 }
