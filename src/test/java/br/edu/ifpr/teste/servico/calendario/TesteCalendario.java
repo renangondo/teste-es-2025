@@ -72,4 +72,37 @@ public class TesteCalendario {
         String calendario = CalendarioUtils.getCalendario("0");
         assertTrue(calendario.isEmpty() || calendario.contains("Erro"), "Ano 0 não é permitido");
     }
+
+    // Teste Calendario do Exercicio 06 
+    
+    @Test
+    public void testGetCalendarioAnoNegativo() {
+        String calendario = CalendarioUtils.getCalendario("-44");
+        assertTrue(calendario.isEmpty() || calendario.contains("Erro"), "Ano negativo não é permitido");
+    }
+
+    @Test
+    public void testGetCalendarioComParametroNaoNumerico() {
+        String calendario = CalendarioUtils.getCalendario("abcd");
+        assertTrue(calendario.isEmpty() || calendario.contains("Erro"), "Parâmetro não numérico deve ser tratado como inválido");
+    }
+
+    @Test
+    public void testGetCalendarioComMesZero() {
+        String calendario = CalendarioUtils.getCalendario("0", "2023");
+        assertTrue(calendario.isEmpty() || calendario.contains("Erro"), "Mês zero não é válido");
+    }
+
+    @Test
+    public void testGetCalendarioComAnoAcimaDoLimite() {
+        String calendario = CalendarioUtils.getCalendario("10000");
+        assertTrue(calendario.isEmpty() || calendario.contains("Erro"), "Ano acima de 9999 não é permitido");
+    }
+
+    @Test
+    public void testGetCalendarioComMesAcimaDoLimite() {
+        String calendario = CalendarioUtils.getCalendario("15", "2023");
+        assertTrue(calendario.isEmpty() || calendario.contains("Erro"), "Mês acima de 12 não é válido");
+    }
+
 }

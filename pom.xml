@@ -35,6 +35,11 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/calendario/paranavai.calendario-0.0.1-SNAPSHOT.jar</systemPath>
 		</dependency>
+        <dependency>
+            <artifactId>junit</artifactId>
+            <groupId>junit</groupId>
+            <version>4.11</version>
+        </dependency>
     </dependencies>
 
 </project>
